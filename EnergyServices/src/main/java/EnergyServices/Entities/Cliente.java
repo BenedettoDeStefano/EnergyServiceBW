@@ -9,6 +9,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class Cliente {
 	@GeneratedValue
 	Long id;
 
+	@OneToMany(mappedBy = "cliente")
 	Set<Fattura> fatture;
+
 	String ragioneSociale;
 	String partitaIva;
 	String email;
@@ -38,6 +41,8 @@ public class Cliente {
 	String nomeContatto;
 	String cognomeContatto;
 	String telefonoContatto;
+
+	@OneToMany(mappedBy = "cliente")
 	Set<Indirizzo> indirizzi;
 
 	@Enumerated(EnumType.STRING)

@@ -1,10 +1,10 @@
 package EnergyServices.Entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,12 @@ public class Indirizzo {
 	String localita;
 	int cap;
 
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	Cliente cliente;
+
+	@ManyToOne
+	@JoinColumn(name = "comune_id")
 	Comune comune;
 
 }
