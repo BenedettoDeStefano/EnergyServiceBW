@@ -18,8 +18,9 @@ public class Comune {
 	@Id
 	@GeneratedValue
 	Long id;
-
+	
 	int codiceProvincia;
 	int progressivoComune;
 	String denominazione;
+	Provincia provincia;
 }
