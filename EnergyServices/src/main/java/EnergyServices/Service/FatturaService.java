@@ -1,4 +1,4 @@
-package Service;
+package EnergyServices.Service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import EnergyServices.Entities.Fattura;
-import Repository.FatturaRepository;
+import EnergyServices.Repository.FatturaRepository;
 
 @Service
 public class FatturaService {

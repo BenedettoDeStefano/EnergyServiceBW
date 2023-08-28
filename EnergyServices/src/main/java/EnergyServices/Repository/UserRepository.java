@@ -1,4 +1,4 @@
-package Repository;
+package EnergyServices.Repository;
 
 import java.util.UUID;
 
