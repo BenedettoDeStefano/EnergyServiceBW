@@ -73,7 +73,7 @@ public class UserController {
 		User updatedUser = new User();
 		updatedUser.setNome(updateUserRequest.getName());
 		updatedUser.setCognome(updateUserRequest.getSurname());
-
+		updatedUser.setEmail(updateUserRequest.getEmail());
 
 		User updated = userService.updateUserById(updatedUser, id);
 		if (updated != null) {
