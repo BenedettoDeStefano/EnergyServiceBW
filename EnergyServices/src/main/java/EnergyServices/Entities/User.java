@@ -40,6 +40,16 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	Role ruolo;
 
+	public User(UUID id, String username, String password, String nome, String cognome, int eta, Role ruolo) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.eta = eta;
+		this.ruolo = ruolo;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority(ruolo.name()));
@@ -69,4 +79,5 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 }
