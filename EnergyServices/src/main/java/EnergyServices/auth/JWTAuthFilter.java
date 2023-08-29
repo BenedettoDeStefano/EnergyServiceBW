@@ -1,12 +1,16 @@
 package EnergyServices.auth;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import EnergyServices.Entities.User;
+import EnergyServices.Service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +25,8 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 	@Autowired
 	JWTTools jwttools;
 
+	@Autowired
+	UserService usersService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -43,16 +49,14 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
 		// 3.1 Cerco l'utente tramite id (l'id sta nel token quindi devo estrarlo da lì)
 		String id = jwttools.extractSubject(token);
-		// User currentUser = usersService.findById(UUID.fromString(id));
+		User currentUser = usersService.findById(UUID.fromString(id));
 
 		// 3.2 Segnaliamo a Spring Security che l'utente ha il permesso di procedere
 		// Se non facciamo questa procedura, ci verrà tornato 403
 		
-		/*
-		 * UsernamePasswordAuthenticationToken authToken = new
-		 * UsernamePasswordAuthenticationToken(currentUser, null,
-		 * currentUser.getAuthorities());
-		 */
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
+				currentUser.getAuthorities());
+
 		// SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		// 3.3 Puoi procedere al prossimo blocco della filter chain

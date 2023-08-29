@@ -1,4 +1,4 @@
-package EnergyServices.auth;
+package EnergyServices.common;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import EnergyServices.auth.BadRequestException;
+import EnergyServices.auth.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
@@ -29,6 +31,12 @@ public class ExceptionsHandler {
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorsPayload handleBadRequest(BadRequestException e) {
+		return new ErrorsPayload(e.getMessage(), new Date(), 13212);
+	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorsPayload handleIllegalArgument(IllegalArgumentException e) {
 		return new ErrorsPayload(e.getMessage(), new Date(), 13212);
 	}
 

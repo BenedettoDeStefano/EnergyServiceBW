@@ -53,6 +53,12 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
 
+		http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/resource/**").hasAuthority("USER")
+				.anyRequest().authenticated());
+
+		http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/**").hasAuthority("ADMIN")
+				.anyRequest().authenticated());
+
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(corsFilter, JWTAuthFilter.class);
 

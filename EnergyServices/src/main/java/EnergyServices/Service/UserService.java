@@ -50,4 +50,12 @@ public class UserService {
 		}
 	}
 
+	public User findById(UUID id) {
+		return this.userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
+	}
+
+	public User findByUsername(String username) {
+		return this.userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException());
+	}
+
 }
