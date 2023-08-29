@@ -2,6 +2,7 @@ package EnergyServices.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,7 @@ public class AuthController {
 		return created;
 	}
 
-	@PostMapping("/login")
+	@PostMapping(name = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public LoginSuccessfullPayload login(@RequestBody UserLoginPayload body) {
 		// 1. Verifichiamo che l'email dell'utente sia presente nel db
 

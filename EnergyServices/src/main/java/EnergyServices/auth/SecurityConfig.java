@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +25,7 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		// http.cors(c -> c.disable());
+		http.cors(c -> c.disable());
 
 		// ************************* CORS (CROSS-ORIGIN RESOURCE SHARING)
 		// **************************
@@ -45,19 +46,29 @@ public class SecurityConfig {
 		// frontend affinchè sia più permissivo. Ciò significa configurare CORS per
 		// "rilassare" questa stringente politica
 
+
 		http.csrf(c -> c.disable());
 
 		// Se vogliamo utilizzare JWT dobbiamo disabilitare anche le sessioni
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll())
+				.csrf(AbstractHttpConfigurer::disable);
 
-		http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/resource/**").hasAuthority("USER")
-				.anyRequest().authenticated());
 
-		http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/**").hasAuthority("ADMIN")
-				.anyRequest().authenticated());
+		/*
+		 * http.authorizeHttpRequests((authorize) ->
+		 * authorize.requestMatchers("/resource/**").hasAuthority("USER")
+		 * .anyRequest().authenticated());
+		 * 
+		 * http.authorizeHttpRequests((authorize) ->
+		 * authorize.requestMatchers("/users/**").hasAuthority("ADMIN")
+		 * .anyRequest().authenticated());
+		 */
+		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/api/admin/**").hasRole("ADMIN")
+				.requestMatchers("/api/user/**").hasRole("USER").anyRequest().authenticated());
+
 
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(corsFilter, JWTAuthFilter.class);
