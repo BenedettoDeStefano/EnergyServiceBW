@@ -1,6 +1,5 @@
 package EnergyServices.Controller;
 
-public class UserController {
-
+public class ClienteController {
 
 }
