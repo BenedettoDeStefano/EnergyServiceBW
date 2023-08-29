@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import EnergyServices.Enum.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,6 +33,7 @@ public class User implements UserDetails {
 	UUID id;
 
 	String username;
+	@JsonIgnore
 	String password;
 	String nome;
 	String cognome;
