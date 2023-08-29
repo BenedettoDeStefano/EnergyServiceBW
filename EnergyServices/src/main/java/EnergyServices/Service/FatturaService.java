@@ -49,4 +49,8 @@ public class FatturaService {
 		}
 	}
 
+	public Fattura createFattura(Fattura fattura) {
+		return saveFattura(fattura);
+	}
+
 }
