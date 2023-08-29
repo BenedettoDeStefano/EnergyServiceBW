@@ -58,4 +58,8 @@ public class ClienteService {
 		}
 	}
 
+	public Cliente createCliente(Cliente cliente) {
+		return saveCliente(cliente);
+	}
+
 }
