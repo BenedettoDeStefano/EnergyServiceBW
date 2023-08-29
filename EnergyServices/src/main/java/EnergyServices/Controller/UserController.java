@@ -35,7 +35,7 @@ public class UserController {
 		User newUser = new User();
 		newUser.setNome(userRequest.getName());
 		newUser.setCognome(userRequest.getSurname());
-		newUser.setEmail(userRequest.getEmail());
+		// newUser.setEmail(userRequest.getEmail());
 		newUser.setPassword(userRequest.getPassword());
 
 		User savedUser = userService.saveUser(newUser);
@@ -73,7 +73,7 @@ public class UserController {
 		User updatedUser = new User();
 		updatedUser.setNome(updateUserRequest.getName());
 		updatedUser.setCognome(updateUserRequest.getSurname());
-		updatedUser.setEmail(updateUserRequest.getEmail());
+		// updatedUser.setEmail(updateUserRequest.getEmail());
 
 		User updated = userService.updateUserById(updatedUser, id);
 		if (updated != null) {
