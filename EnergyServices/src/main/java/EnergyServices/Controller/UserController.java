@@ -24,7 +24,7 @@ import EnergyServices.PayLoad.UserRequestPayload;
 import EnergyServices.Service.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
 	@Autowired
