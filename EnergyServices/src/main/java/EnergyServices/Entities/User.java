@@ -25,6 +25,7 @@ public class User {
 	UUID id;
 
 	String username;
+	String email;
 	String password;
 	String nome;
 	String cognome;

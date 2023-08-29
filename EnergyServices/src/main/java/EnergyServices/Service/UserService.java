@@ -43,7 +43,6 @@ public class UserService {
 			userTrovato.setPassword(nuovoUser.getPassword());
 			userTrovato.setRuolo(nuovoUser.getRuolo());
 			userTrovato.setUsername(nuovoUser.getUsername());
-
 			return userRepository.save(userTrovato);
 		} else {
 			return null;
