@@ -1,6 +1,7 @@
 package EnergyServices.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,9 +17,11 @@ import EnergyServices.Service.UserService;
 import EnergyServices.common.LoginSuccessfullPayload;
 import EnergyServices.common.UserLoginPayload;
 import EnergyServices.common.UserRequestPayload;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 	
 	@Autowired
@@ -33,9 +36,15 @@ public class AuthController {
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.CREATED)
 	public User saveUser(@RequestBody UserRequestPayload body) {
+		try {
 		User created = usersService.saveUser(convertPayload(body));
-
 		return created;
+		} catch (DataIntegrityViolationException e) {
+			log.error(e.getMessage());
+			throw new BadRequestException("username già esistente.");
+		}
+
+
 	}
 
 	@PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)

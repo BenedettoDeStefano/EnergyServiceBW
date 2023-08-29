@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import EnergyServices.Enum.Role;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,6 +33,7 @@ public class User implements UserDetails {
 	@GeneratedValue
 	UUID id;
 
+	@Column(unique = true)
 	String username;
 	@JsonIgnore
 	String password;

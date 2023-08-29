@@ -55,7 +55,8 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll())
 				.csrf(AbstractHttpConfigurer::disable);
-
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/fattura/**").permitAll())
+				.csrf(AbstractHttpConfigurer::disable);
 
 		/*
 		 * http.authorizeHttpRequests((authorize) ->

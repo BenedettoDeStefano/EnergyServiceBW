@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -57,7 +58,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
 				currentUser.getAuthorities());
 
-		// SecurityContextHolder.getContext().setAuthentication(authToken);
+		SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		// 3.3 Puoi procedere al prossimo blocco della filter chain
 		filterChain.doFilter(request, response);

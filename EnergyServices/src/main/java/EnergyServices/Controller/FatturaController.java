@@ -1,5 +1,6 @@
 package EnergyServices.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import EnergyServices.Service.FatturaService;
 @RequestMapping("/fattura")
 public class FatturaController {
 
+	@Autowired
 	private FatturaService fatturaService;
 
 	@PostMapping
@@ -29,8 +31,8 @@ public class FatturaController {
 	}
 
 	@GetMapping("/{fatturaId}")
-	public ResponseEntity<Fattura> getFatturaById(@PathVariable Long id) throws NotFoundException {
-		Fattura fattura = fatturaService.getFatturaByID(id);
+	public ResponseEntity<Fattura> getFatturaById(@PathVariable Long fatturaId) throws NotFoundException {
+		Fattura fattura = fatturaService.getFatturaByID(fatturaId);
 		if (fattura != null) {
 			return ResponseEntity.ok(fattura);
 		} else {
