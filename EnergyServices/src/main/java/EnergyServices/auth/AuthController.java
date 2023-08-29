@@ -38,7 +38,7 @@ public class AuthController {
 		return created;
 	}
 
-	@PostMapping(name = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public LoginSuccessfullPayload login(@RequestBody UserLoginPayload body) {
 		// 1. Verifichiamo che l'email dell'utente sia presente nel db
 
