@@ -4,17 +4,23 @@ import java.time.LocalDate;
 
 import EnergyServices.Entities.Cliente;
 import EnergyServices.Enum.TipoCliente;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class ClientePayLoad {
 
+	@NotNull(message = "ragione sociale è un campo obbligatorio")
 	private String ragioneSociale;
+	@NotNull(message = "partita iva è un campo obbligatorio")
 	private String partitaIva;
+	@Email(message = "email non valida")
 	private String email;
 	private LocalDate dataInserimento;
 	private LocalDate dataUltimoContatto;

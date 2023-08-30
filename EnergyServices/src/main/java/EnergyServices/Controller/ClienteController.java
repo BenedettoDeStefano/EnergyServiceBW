@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import EnergyServices.Entities.Cliente;
 import EnergyServices.PayLoad.ClientePayLoad;
 import EnergyServices.Service.ClienteService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/cliente")
@@ -42,7 +43,7 @@ public class ClienteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ClientePayLoad> createCliente(@RequestBody ClientePayLoad clientePayload) {
+	public ResponseEntity<ClientePayLoad> createCliente(@Valid @RequestBody ClientePayLoad clientePayload) {
 		Cliente createdCliente = clienteService.createCliente(clientePayload.toCliente());
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ClientePayLoad(createdCliente));
 	}

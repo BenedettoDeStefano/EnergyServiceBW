@@ -24,6 +24,7 @@ import EnergyServices.Entities.Fattura;
 import EnergyServices.PayLoad.FatturaPayLoad;
 import EnergyServices.Service.FatturaService;
 import EnergyServices.auth.BadRequestException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/fattura")
@@ -117,7 +118,7 @@ public class FatturaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<FatturaPayLoad> createFattura(@RequestBody FatturaPayLoad fatturaPayload) {
+	public ResponseEntity<FatturaPayLoad> createFattura(@Valid @RequestBody FatturaPayLoad fatturaPayload) {
 		Fattura createdFattura = fatturaService.createFattura(fatturaPayload.toFattura());
 		return ResponseEntity.status(HttpStatus.CREATED).body(new FatturaPayLoad(createdFattura));
 	}

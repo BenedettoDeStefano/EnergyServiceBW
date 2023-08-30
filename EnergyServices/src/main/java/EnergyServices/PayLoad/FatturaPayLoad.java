@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import EnergyServices.Entities.Cliente;
 import EnergyServices.Entities.Fattura;
 import EnergyServices.Enum.StatoFattura;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class FatturaPayLoad {
 	private double importo;
 	private int numero;
 	private StatoFattura stato;
+	@NotNull(message = "riferimento al cliente obbligatorio.")
 	private Long clienteId;
 	private Long id;
 
