@@ -1,5 +1,6 @@
 package EnergyServices.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,24 @@ public class ClienteService {
 
 	public Cliente createCliente(Cliente cliente) {
 		return saveCliente(cliente);
+	}
+
+	// ------------------------------------------------------ Filtr
+
+	public List<Cliente> findByFatturatoAnnuale(int fatturatoMin, int fatturatoMax) {
+		return clienteRepository.findByFatturatoAnnualeBetween(fatturatoMin, fatturatoMax);
+	}
+
+	public List<Cliente> findByDataInserimento(LocalDate data) {
+		return clienteRepository.findByDataInserimento(data);
+	}
+
+	public List<Cliente> findByDataUltimoContatto(LocalDate data) {
+		return clienteRepository.findByDataUltimoContatto(data);
+	}
+
+	public List<Cliente> findByParteDelNome(String parteDelNome) {
+		return clienteRepository.findByNomeContattoContainingIgnoreCase(parteDelNome);
 	}
 
 }

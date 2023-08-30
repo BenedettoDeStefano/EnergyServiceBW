@@ -1,5 +1,6 @@
 package EnergyServices.Controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import EnergyServices.Entities.Cliente;
@@ -62,6 +64,32 @@ public class ClienteController {
 		}
 		clienteService.deleteCliente(clientId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cancellato cliente con id: " + clientId);
+	}
+
+	// ------------------------------------------------------ Filtr
+	@GetMapping("/fatturato")
+	public ResponseEntity<List<Cliente>> getClientiByFatturato(@RequestParam int minFatturato,
+			@RequestParam int maxFatturato) {
+		List<Cliente> clienti = clienteService.findByFatturatoAnnuale(minFatturato, maxFatturato);
+		return ResponseEntity.ok(clienti);
+	}
+
+	@GetMapping("/data-inserimento")
+	public ResponseEntity<List<Cliente>> getClientiByDataInserimento(@RequestParam LocalDate data) {
+		List<Cliente> clienti = clienteService.findByDataInserimento(data);
+		return ResponseEntity.ok(clienti);
+	}
+
+	@GetMapping("/data-ultimo-contatto")
+	public ResponseEntity<List<Cliente>> getClientiByDataUltimoContatto(@RequestParam LocalDate data) {
+		List<Cliente> clienti = clienteService.findByDataUltimoContatto(data);
+		return ResponseEntity.ok(clienti);
+	}
+
+	@GetMapping("/nome")
+	public ResponseEntity<List<Cliente>> getClientiByParteDelNome(@RequestParam String parteDelNome) {
+		List<Cliente> clienti = clienteService.findByParteDelNome(parteDelNome);
+		return ResponseEntity.ok(clienti);
 	}
 
 }
