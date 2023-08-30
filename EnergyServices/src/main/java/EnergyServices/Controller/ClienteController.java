@@ -56,6 +56,9 @@ public class ClienteController {
 
 	@DeleteMapping("/{clientId}")
 	public ResponseEntity<String> deleteCliente(@PathVariable Long clienteId) throws NotFoundException {
+		if (clienteService.getClienteByID(clienteId) == null) {
+			return ResponseEntity.notFound().build();
+		}
 		clienteService.deleteCliente(clienteId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cancellato cliente con id: " + clienteId);
 	}

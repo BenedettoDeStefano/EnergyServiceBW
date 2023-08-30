@@ -66,6 +66,9 @@ public class FatturaController {
 
 	@DeleteMapping("/{fatturaId}")
 	public ResponseEntity<String> deleteFattura(@PathVariable Long fatturaId) throws NotFoundException {
+		if (fatturaService.getFatturaByID(fatturaId) == null) {
+			return ResponseEntity.notFound().build();
+		}
 		fatturaService.deleteFattura(fatturaId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cancellata fattura con id: " + fatturaId);
 	}
