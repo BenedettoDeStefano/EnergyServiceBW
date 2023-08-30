@@ -12,13 +12,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class Comune {
+
 
 	@Id
 	@GeneratedValue
@@ -34,4 +36,12 @@ public class Comune {
 
 	@OneToMany(mappedBy = "comune")
 	Set<Indirizzo> indirizzi;
+	
+	public Comune(int _codiceProvincia, int _progressivoComune, String _denominazione, Provincia _provincia) {
+		this.codiceProvincia = _codiceProvincia;
+		this.progressivoComune = _progressivoComune;
+		this.denominazione = _denominazione;
+		this.provincia = _provincia;
+	}
+	
 }
