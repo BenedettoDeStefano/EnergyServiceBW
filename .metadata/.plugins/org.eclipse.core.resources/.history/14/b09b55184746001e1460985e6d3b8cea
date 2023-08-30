@@ -1,0 +1,29 @@
+package EnergyServices;
+
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+import EnergyServices.Entities.Provincia;
+import EnergyServices.Service.CSVreaderProvinceService;
+
+
+@SpringBootApplication
+public class EnergyServicesApplication {
+
+	public static void main(String[] args) {
+		ApplicationContext context = SpringApplication.run(EnergyServicesApplication.class, args);
+		
+		
+		
+		CSVreaderProvinceService csvService = context.getBean(CSVreaderProvinceService.class);
+		List<Provincia> elencoProvince = csvService.readCsvFile("province-italiane.csv");
+		
+		for (Provincia provincia : elencoProvince) {
+            System.out.println(provincia.getSigla() + " " + provincia.getProvincia() + " " + provincia.getRegione());
+		}
+	}	
+	
+}

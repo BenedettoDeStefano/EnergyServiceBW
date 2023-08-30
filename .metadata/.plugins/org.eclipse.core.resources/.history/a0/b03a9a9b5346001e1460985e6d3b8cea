@@ -1,0 +1,9 @@
+package EnergyServices.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import EnergyServices.Entities.Provincia;
+
+public interface ProvinciaRepository extends JpaRepository<Provincia, Long>{
+
+}

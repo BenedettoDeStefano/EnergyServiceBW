@@ -1,0 +1,5 @@
+package EnergyServices.Repository;
+
+public interface ComuneRepository {
+
+}

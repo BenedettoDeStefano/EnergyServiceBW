@@ -1,0 +1,46 @@
+package EnergyServices.Entities;
+
+import java.util.Set;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+public class Comune {
+
+
+	@Id
+	@GeneratedValue
+	Long id;
+	
+	int codiceProvincia;
+	int progressivoComune;
+	String denominazione;
+
+	@ManyToOne
+	@JoinColumn(name = "provincia_id")
+	String provincia;
+
+	@OneToMany(mappedBy = "comune")
+	Set<Indirizzo> indirizzi;
+	
+	public Comune(int _codiceProvincia, int _progressivoComune, String _denominazione, Provincia _provincia) {
+		this.codiceProvincia = _codiceProvincia;
+		this.progressivoComune = _progressivoComune;
+		this.denominazione = _denominazione;
+		this.provincia = _provincia;
+	}
+	
+}

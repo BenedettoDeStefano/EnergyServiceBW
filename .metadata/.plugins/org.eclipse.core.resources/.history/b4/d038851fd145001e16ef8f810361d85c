@@ -1,0 +1,28 @@
+package EnergyServices;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+
+import EnergyServices.Service.ProvinciaImportService;
+
+@SpringBootApplication
+public class EnergyServicesApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EnergyServicesApplication.class, args);
+	}
+	
+	@Autowired
+    private ProvinciaImportService provinciaImportService;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void importDataOnStartup() {
+    	
+        provinciaImportService.importProvinceFromCSV("province-italiane-prova.csv");
+        System.out.println("Tutte le province italiane sono state caricate correttamemte");
+    }
+
+}
