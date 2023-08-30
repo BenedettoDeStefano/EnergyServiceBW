@@ -1,5 +1,6 @@
 package EnergyServices.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import EnergyServices.Entities.Fattura;
+import EnergyServices.Enum.StatoFattura;
 import EnergyServices.Repository.FatturaRepository;
 
 @Service
@@ -55,5 +57,21 @@ public class FatturaService {
 
 	public List<Fattura> getByCliente(Long id) {
 		return this.fatturaRepository.findByClienteId(id);
+	}
+
+	public List<Fattura> findByData(LocalDate data) {
+		return fatturaRepository.findByData(data);
+	}
+
+	public List<Fattura> findByStato(String stato) {
+		return fatturaRepository.findByStato(StatoFattura.valueOf(stato));
+	}
+
+	public List<Fattura> findByAnno(int anno) {
+		return fatturaRepository.findByAnno(anno);
+	}
+
+	public List<Fattura> findByImporto(double min, double max) {
+		return fatturaRepository.findByImporto(min, max);
 	}
 }

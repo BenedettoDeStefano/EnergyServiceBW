@@ -1,5 +1,9 @@
 package EnergyServices.Controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import EnergyServices.Entities.Fattura;
 import EnergyServices.PayLoad.FatturaPayLoad;
 import EnergyServices.Service.FatturaService;
+import EnergyServices.auth.BadRequestException;
 
 @RestController
 @RequestMapping("/fattura")
@@ -27,9 +33,82 @@ public class FatturaController {
 	private FatturaService fatturaService;
 
 	@GetMapping("search/{clienteId}")
-	public ResponseEntity<List<FatturaPayLoad>> getFattureByClienteId(@PathVariable Long clienteId)
+	public ResponseEntity<List<FatturaPayLoad>> getFattureByClienteId(@PathVariable Long clienteId,
+			@RequestParam(required = false) String stato, @RequestParam(required = false) String data,
+			@RequestParam(required = false) Integer anno, @RequestParam(required = false) Double min,
+			@RequestParam(required = false) Double max
+
+	)
 			throws NotFoundException {
-		List<Fattura> fatture = fatturaService.getByCliente(clienteId);
+		List<Fattura> fatture;
+		if (clienteId != null) {
+			fatture = fatturaService.getByCliente(clienteId);
+		} else {
+			fatture = fatturaService.getAllFatture();
+		}
+		List<Fattura> lista = new ArrayList<Fattura>();
+		ricerca: {
+		if (stato != null && !stato.isEmpty()) {
+			lista.addAll(fatturaService.findByStato(stato));
+			if (lista.isEmpty()) {
+				break ricerca;
+			}
+		}
+		if (data != null && !data.isEmpty()) {
+			try {
+				LocalDate date = LocalDate.parse(data, DateTimeFormatter.ofPattern("uuuu-MM-dd"));
+				List<Fattura> found = fatturaService.findByData(date);
+				if (lista.isEmpty()) {
+					lista.addAll(found);
+
+				} else {
+					lista = lista.stream().filter(found::contains).toList();
+
+				}
+				if (lista.isEmpty()) {
+					break ricerca;
+				}
+
+			} catch (DateTimeParseException e) {
+				throw new IllegalArgumentException("formato data non valida per il campo data fattura: " + data);
+			}
+		}
+		if (anno != null && anno >= 1970) {
+			List<Fattura> found = fatturaService.findByAnno(anno);
+			if (lista.isEmpty()) {
+				lista.addAll(found);
+
+			} else {
+				lista = lista.stream().filter(found::contains).toList();
+
+			}
+			if (lista.isEmpty()) {
+				break ricerca;
+			}
+		}
+		if (min != null && max != null) {
+			if (min >= max) {
+				throw new IllegalArgumentException("Parametri per filtro su importo non validi.");
+			} else {
+				List<Fattura> found = fatturaService.findByImporto(min, max);
+				if (lista.isEmpty()) {
+					lista.addAll(found);
+
+				} else {
+					lista = lista.stream().filter(found::contains).toList();
+
+				}
+				if (lista.isEmpty()) {
+					break ricerca;
+				}
+			}
+		} else if (min != null || max != null) {
+			throw new BadRequestException("Parametri su importo fattura non validi min e max.");
+		}
+	}
+
+		fatture = fatture.stream().filter(lista::contains).toList();
+
 		if (fatture != null && !fatture.isEmpty()) {
 			return ResponseEntity.ok(fatture.stream().map(FatturaPayLoad::new).toList());
 		} else {
