@@ -68,7 +68,7 @@ public class SecurityConfig {
 		 * .anyRequest().authenticated());
 		 */
 		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/api/admin/**").hasRole("ADMIN")
-				.requestMatchers("/api/user/**").hasRole("USER").anyRequest().authenticated());
+				.requestMatchers("/users/upgrade/**").hasRole("ADMIN").anyRequest().authenticated());
 
 
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
