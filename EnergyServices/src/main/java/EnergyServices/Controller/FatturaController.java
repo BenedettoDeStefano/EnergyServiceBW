@@ -1,5 +1,7 @@
 package EnergyServices.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,36 +26,48 @@ public class FatturaController {
 	@Autowired
 	private FatturaService fatturaService;
 
+	@GetMapping("search/{clienteId}")
+	public ResponseEntity<List<FatturaPayLoad>> getFattureByClienteId(@PathVariable Long clienteId)
+			throws NotFoundException {
+		List<Fattura> fatture = fatturaService.getByCliente(clienteId);
+		if (fatture != null && !fatture.isEmpty()) {
+			return ResponseEntity.ok(fatture.stream().map(FatturaPayLoad::new).toList());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
 	@PostMapping
-	public ResponseEntity<Fattura> createFattura(@RequestBody FatturaPayLoad fatturaPayload) {
+	public ResponseEntity<FatturaPayLoad> createFattura(@RequestBody FatturaPayLoad fatturaPayload) {
 		Fattura createdFattura = fatturaService.createFattura(fatturaPayload.toFattura());
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdFattura);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new FatturaPayLoad(createdFattura));
 	}
 
 	@GetMapping("/{fatturaId}")
-	public ResponseEntity<Fattura> getFatturaById(@PathVariable Long fatturaId) throws NotFoundException {
+	public ResponseEntity<FatturaPayLoad> getFatturaById(@PathVariable Long fatturaId) throws NotFoundException {
 		Fattura fattura = fatturaService.getFatturaByID(fatturaId);
 		if (fattura != null) {
-			return ResponseEntity.ok(fattura);
+			return ResponseEntity.ok(new FatturaPayLoad(fattura));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@PutMapping("/{fatturaId}")
-	public ResponseEntity<Fattura> updateFattura(@PathVariable Long id, @RequestBody FatturaPayLoad fatturaPayload) {
-		Fattura updatedFattura = fatturaService.updateFatturaById(fatturaPayload.toFattura(), id);
+	public ResponseEntity<FatturaPayLoad> updateFattura(@PathVariable Long fatturaId,
+			@RequestBody FatturaPayLoad fatturaPayload) {
+		Fattura updatedFattura = fatturaService.updateFatturaById(fatturaPayload.toFattura(), fatturaId);
 		if (updatedFattura != null) {
-			return ResponseEntity.ok(updatedFattura);
+			return ResponseEntity.ok(new FatturaPayLoad(updatedFattura));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@DeleteMapping("/{fatturaId}")
-	public ResponseEntity<Void> deleteFattura(@PathVariable Long id) throws NotFoundException {
-		fatturaService.deleteFattura(id);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<String> deleteFattura(@PathVariable Long fatturaId) throws NotFoundException {
+		fatturaService.deleteFattura(fatturaId);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cancellata fattura con id: " + fatturaId);
 	}
 
 }

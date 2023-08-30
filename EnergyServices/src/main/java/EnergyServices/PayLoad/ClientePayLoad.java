@@ -6,8 +6,10 @@ import EnergyServices.Entities.Cliente;
 import EnergyServices.Enum.TipoCliente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class ClientePayLoad {
 
@@ -24,6 +26,24 @@ public class ClientePayLoad {
 	private String cognomeContatto;
 	private String telefonoContatto;
 	private TipoCliente tipo;
+	private Long id;
+
+	public ClientePayLoad(Cliente c) {
+		this.setRagioneSociale(c.getRagioneSociale());
+		this.setPartitaIva(c.getPartitaIva());
+		this.setEmail(c.getEmail());
+		this.setDataInserimento(c.getDataInserimento());
+		this.setDataUltimoContatto(c.getDataUltimoContatto());
+		this.setFatturatoAnnuale(c.getFatturatoAnnuale());
+		this.setPec(c.getPec());
+		this.setTelefono(c.getTelefono());
+		this.setEmailContatto(c.getEmailContatto());
+		this.setNomeContatto(c.getNomeContatto());
+		this.setCognomeContatto(c.getCognomeContatto());
+		this.setTelefonoContatto(c.getTelefonoContatto());
+		this.setTipo(c.getTipo());
+		this.setId(c.getId());
+	}
 
 	public Cliente toCliente() {
 		Cliente cliente = new Cliente();

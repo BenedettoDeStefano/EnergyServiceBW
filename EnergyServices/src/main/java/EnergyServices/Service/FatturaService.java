@@ -53,4 +53,7 @@ public class FatturaService {
 		return saveFattura(fattura);
 	}
 
+	public List<Fattura> getByCliente(Long id) {
+		return this.fatturaRepository.findByClienteId(id);
+	}
 }

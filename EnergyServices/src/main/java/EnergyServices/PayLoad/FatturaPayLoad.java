@@ -7,8 +7,10 @@ import EnergyServices.Entities.Fattura;
 import EnergyServices.Enum.StatoFattura;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class FatturaPayLoad {
 
@@ -18,6 +20,17 @@ public class FatturaPayLoad {
 	private int numero;
 	private StatoFattura stato;
 	private Long clienteId;
+	private Long id;
+
+	public FatturaPayLoad(Fattura f) {
+		this.setData(f.getData());
+		this.setAnno(f.getAnno());
+		this.setImporto(f.getImporto());
+		this.setNumero(f.getNumero());
+		this.setStato(f.getStato());
+		this.setId(f.getId());
+		this.setClienteId(f.getCliente() != null ? f.getCliente().getId() : null);
+	}
 
 	public Fattura toFattura() {
 		Fattura fattura = new Fattura();

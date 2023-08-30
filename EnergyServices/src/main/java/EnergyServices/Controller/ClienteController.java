@@ -1,5 +1,7 @@
 package EnergyServices.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,29 +26,38 @@ public class ClienteController {
 	@Autowired
 	private ClienteService clienteService;
 
+	@GetMapping
+	public ResponseEntity<List<ClientePayLoad>> getClienti() throws NotFoundException {
+		List<Cliente> clienti = clienteService.getAllClienti();
+		if (clienti.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(clienti.stream().map(ClientePayLoad::new).toList());
+	}
+
 	@GetMapping("/{clienteId}")
-	public ResponseEntity<Cliente> getClienteById(@PathVariable Long clienteId) throws NotFoundException {
+	public ResponseEntity<ClientePayLoad> getClienteById(@PathVariable Long clienteId) throws NotFoundException {
 		Cliente cliente = clienteService.getClienteByID(clienteId);
-		return ResponseEntity.ok(cliente);
+		return ResponseEntity.ok(new ClientePayLoad(cliente));
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> createCliente(@RequestBody ClientePayLoad clientePayload) {
+	public ResponseEntity<ClientePayLoad> createCliente(@RequestBody ClientePayLoad clientePayload) {
 		Cliente createdCliente = clienteService.createCliente(clientePayload.toCliente());
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdCliente);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ClientePayLoad(createdCliente));
 	}
 
 	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> updateCliente(@PathVariable Long clienteId,
+	public ResponseEntity<ClientePayLoad> updateCliente(@PathVariable Long clienteId,
 			@RequestBody ClientePayLoad clientePayload) {
 		Cliente updatedCliente = clienteService.updateClienteById(clientePayload.toCliente(), clienteId);
-		return ResponseEntity.ok(updatedCliente);
+		return ResponseEntity.ok(new ClientePayLoad(updatedCliente));
 	}
 
 	@DeleteMapping("/{clientId}")
-	public ResponseEntity<Void> deleteCliente(@PathVariable Long clienteId) throws NotFoundException {
+	public ResponseEntity<String> deleteCliente(@PathVariable Long clienteId) throws NotFoundException {
 		clienteService.deleteCliente(clienteId);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cancellato cliente con id: " + clienteId);
 	}
 
 }
