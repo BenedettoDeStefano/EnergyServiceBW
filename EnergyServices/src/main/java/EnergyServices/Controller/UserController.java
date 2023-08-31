@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import EnergyServices.Entities.User;
+import EnergyServices.Enum.Role;
 import EnergyServices.PayLoad.LoginSuccessfullPayload;
 import EnergyServices.PayLoad.NewUserResponsePayload;
 import EnergyServices.PayLoad.UserLoginPayload;
@@ -90,6 +91,18 @@ public class UserController {
 			return ResponseEntity.noContent().build();
 		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PutMapping("upgrade/{id}")
+	public ResponseEntity<User> upgrade(@PathVariable UUID id) {
+		User u = userService.findById(id);
+		if (u == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			u.setRuolo(Role.ADMIN);
+			userService.saveUser(u);
+			return ResponseEntity.ok(u);
 		}
 	}
 }

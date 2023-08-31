@@ -4,12 +4,15 @@ import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -19,7 +22,8 @@ import lombok.Setter;
 public class Provincia {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "provincia_id_seq")
+	@SequenceGenerator(name = "provincia_id_seq", sequenceName = "provincia_id_seq", initialValue = 1, allocationSize = 1)
 	Long id;
 
 	String sigla;
@@ -29,5 +33,14 @@ public class Provincia {
 	@OneToMany(mappedBy = "provincia")
 	Set<Comune> comuni;
 	
+	public Provincia(String sigla, String provincia, String regione) {
+        this.sigla = sigla;
+        this.provincia = provincia;
+        this.regione = regione;
+    }
 
+	@Override
+	public String toString() {
+		return "Provincia [sigla=" + sigla + ", provincia=" + provincia + ", regione=" + regione + "]";
+	}
 }
