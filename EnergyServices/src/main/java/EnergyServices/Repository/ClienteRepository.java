@@ -19,4 +19,14 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
 	List<Cliente> findByNomeContattoContainingIgnoreCase(String parteDelNome);
 
+
+//	List<Cliente> findAllByOrderByRagioneSocialeAsc(); // Ordine per Nome
+
+	List<Cliente> findAllByOrderByFatturatoAnnualeDesc(); // Ordine per Fatturato Annuale
+
+	List<Cliente> findAllByOrderByDataInserimentoDesc(); // Ordine per Data di Inserimento
+
+	List<Cliente> findAllByOrderByDataUltimoContattoDesc(); // Ordine per Data di Ultimo Contatto
+
+
 }
