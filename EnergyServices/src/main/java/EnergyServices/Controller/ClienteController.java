@@ -92,4 +92,29 @@ public class ClienteController {
 		return ResponseEntity.ok(clienti);
 	}
 
+	// -------------------------------------------------------------------
+
+	@GetMapping("/nome_ordinato")
+	public ResponseEntity<List<ClientePayLoad>> getClientiOrderedByName() {
+		List<Cliente> clienti = clienteService.getAllClientiOrderedByName();
+		return ResponseEntity.ok(clienti.stream().map(ClientePayLoad::new).toList());
+	}
+
+	@GetMapping("/fatturato-ordinato")
+	public ResponseEntity<List<ClientePayLoad>> getClientiOrderedByFatturato() {
+		List<Cliente> clienti = clienteService.getAllClientiOrderedByFatturato();
+		return ResponseEntity.ok(clienti.stream().map(ClientePayLoad::new).toList());
+	}
+
+	@GetMapping("/data-inserimento-ordinata")
+	public ResponseEntity<List<ClientePayLoad>> getClientiOrderedByDataInserimento() {
+		List<Cliente> clienti = clienteService.getAllClientiOrderedByDataInserimento();
+		return ResponseEntity.ok(clienti.stream().map(ClientePayLoad::new).toList());
+	}
+
+	@GetMapping("/data_ultimo_contatto-ordinata")
+	public ResponseEntity<List<ClientePayLoad>> getClientiOrderedByDataUltimoContatto() {
+		List<Cliente> clienti = clienteService.getAllClientiOrderedByDataUltimoContatto();
+		return ResponseEntity.ok(clienti.stream().map(ClientePayLoad::new).toList());
+	}
 }

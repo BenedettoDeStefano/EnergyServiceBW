@@ -81,4 +81,20 @@ public class ClienteService {
 		return clienteRepository.findByNomeContattoContainingIgnoreCase(parteDelNome);
 	}
 
+	// ------------------------------------------------------
+	public List<Cliente> getAllClientiOrderedByName() {
+		return clienteRepository.findAllByOrderByRagioneSocialeAsc();
+	}
+
+	public List<Cliente> getAllClientiOrderedByFatturato() {
+		return clienteRepository.findAllByOrderByFatturatoAnnualeDesc();
+	}
+
+	public List<Cliente> getAllClientiOrderedByDataInserimento() {
+		return clienteRepository.findAllByOrderByDataInserimentoDesc();
+	}
+
+	public List<Cliente> getAllClientiOrderedByDataUltimoContatto() {
+		return clienteRepository.findAllByOrderByDataUltimoContattoDesc();
+	}
 }
