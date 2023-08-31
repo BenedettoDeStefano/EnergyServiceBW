@@ -53,12 +53,11 @@ public class SecurityConfig {
 		// Se vogliamo utilizzare JWT dobbiamo disabilitare anche le sessioni
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
+		// http.authorizeHttpRequests(auth ->
+		// auth.requestMatchers("/users/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll())
 				.csrf(AbstractHttpConfigurer::disable);
-		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/fattura/**").hasRole("ADMIN").anyRequest().authenticated())
-				.csrf(AbstractHttpConfigurer::disable);
+
 
 		/*
 		 * http.authorizeHttpRequests((authorize) ->
@@ -69,16 +68,31 @@ public class SecurityConfig {
 		 * authorize.requestMatchers("/users/**").hasAuthority("ADMIN")
 		 * .anyRequest().authenticated());
 		 */
-		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/api/admin/**").hasRole("ADMIN")
-				.requestMatchers("/users/**").hasRole("ADMIN").anyRequest().authenticated());
+		/*
+		 * http.authorizeHttpRequests( (authz) -> authz.requestMatchers("/users/**",
+		 * "").hasRole("ADMIN").anyRequest().authenticated());
+		 * 
+		 * 
+		 * http.authorizeHttpRequests( (authz) ->
+		 * authz.requestMatchers("/cliente/**").hasRole("ADMIN").anyRequest().
+		 * authenticated());
+		 */
 
 		http.authorizeHttpRequests(
-				(authz) -> authz.requestMatchers("/cliente/**").hasRole("ADMIN").anyRequest().authenticated());
-
-		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/cliente/**").hasRole("USER")
-				.requestMatchers(HttpMethod.GET).authenticated());
-		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/fattura/**").hasRole("USER")
-				.requestMatchers(HttpMethod.GET).authenticated());
+				(authz) -> authz.requestMatchers(HttpMethod.GET, "/cliente/**", "/fattura/**")
+						.hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.POST, "/fattura/**", "/users/**", "/cliente/**").hasRole("ADMIN")
+						.anyRequest().authenticated());
+		/*
+		 * http.authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.GET,
+		 * "/fattura/**") .hasAnyRole("USER", "ADMIN") .anyRequest().authenticated());
+		 */
+		/*
+		 * http.authorizeHttpRequests( auth -> auth.requestMatchers(HttpMethod.POST,
+		 * "/fattura/**", "/users/**", "/cliente/**")
+		 * .hasRole("ADMIN").anyRequest().authenticated())
+		 * .csrf(AbstractHttpConfigurer::disable);
+		 */
 
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(corsFilter, JWTAuthFilter.class);
