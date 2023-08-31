@@ -82,9 +82,9 @@ public class ClienteService {
 	}
 
 	// ------------------------------------------------------
-//	public List<Cliente> getAllClientiOrderedByName() {
-//		return clienteRepository.findAllByOrderByRagioneSocialeAsc();
-//	}
+	public List<Cliente> getAllClientiOrderedByName() {
+		return clienteRepository.findAllByOrderByRagioneSocialeAsc();
+	}
 
 	public List<Cliente> getAllClientiOrderedByFatturato() {
 		return clienteRepository.findAllByOrderByFatturatoAnnualeDesc();
