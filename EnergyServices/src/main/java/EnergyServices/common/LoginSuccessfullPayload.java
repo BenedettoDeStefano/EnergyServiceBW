@@ -1,5 +1,6 @@
 package EnergyServices.common;
 
+import EnergyServices.Entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,4 +10,5 @@ import lombok.Setter;
 @Setter
 public class LoginSuccessfullPayload {
 	private String accessToken;
+	private User user;
 }
