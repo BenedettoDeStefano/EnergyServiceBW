@@ -3,6 +3,7 @@ package EnergyServices.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +26,7 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.cors(c -> c.disable());
+		// http.cors(c -> c.disable());
 
 		// ************************* CORS (CROSS-ORIGIN RESOURCE SHARING)
 		// **************************
@@ -55,7 +56,8 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll())
 				.csrf(AbstractHttpConfigurer::disable);
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/fattura/**").permitAll())
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/fattura/**").hasRole("ADMIN").anyRequest().authenticated())
 				.csrf(AbstractHttpConfigurer::disable);
 
 		/*
@@ -68,8 +70,15 @@ public class SecurityConfig {
 		 * .anyRequest().authenticated());
 		 */
 		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/api/admin/**").hasRole("ADMIN")
-				.requestMatchers("/users/upgrade/**").hasRole("ADMIN").anyRequest().authenticated());
+				.requestMatchers("/users/**").hasRole("ADMIN").anyRequest().authenticated());
 
+		http.authorizeHttpRequests(
+				(authz) -> authz.requestMatchers("/cliente/**").hasRole("ADMIN").anyRequest().authenticated());
+
+		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/cliente/**").hasRole("USER")
+				.requestMatchers(HttpMethod.GET).authenticated());
+		http.authorizeHttpRequests((authz) -> authz.requestMatchers("/fattura/**").hasRole("USER")
+				.requestMatchers(HttpMethod.GET).authenticated());
 
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(corsFilter, JWTAuthFilter.class);
