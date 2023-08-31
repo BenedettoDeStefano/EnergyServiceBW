@@ -80,12 +80,16 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(
 				(authz) -> authz.requestMatchers(HttpMethod.GET, "/cliente/**", "/fattura/**")
-						.hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.POST, "/fattura/**", "/users/**", "/cliente/**").hasRole("ADMIN")
+						// .permitAll()
+						.hasAnyAuthority("USER", "ADMIN")
+						.requestMatchers(HttpMethod.POST, "/fattura/**", "/users/**", "/cliente/**")
+						.hasAuthority("ADMIN")
+						// .permitAll()
 						.anyRequest().authenticated());
+
 		/*
 		 * http.authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.GET,
-		 * "/fattura/**") .hasAnyRole("USER", "ADMIN") .anyRequest().authenticated());
+		 * "/fattura/**") .hasAnyRole("USER", "ADMIN").anyRequest());
 		 */
 		/*
 		 * http.authorizeHttpRequests( auth -> auth.requestMatchers(HttpMethod.POST,
