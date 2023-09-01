@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.io.Reader"/>
     <fullyQualifiedTypeName name="java.nio.file.Files"/>
@@ -20,17 +19,24 @@
     <fullyQualifiedTypeName name="EnergyServices.Service.CSVreaderProvinceService"/>
     <fullyQualifiedTypeName name="org.apache.catalina.core.ApplicationContext"/>
     <fullyQualifiedTypeName name="org.springframework.context.ApplicationContext"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.opencsv.CSVParser"/>
     <fullyQualifiedTypeName name="com.opencsv.CSVParserBuilder"/>
     <fullyQualifiedTypeName name="com.opencsv.CSVReaderBuilder"/>
-    <fullyQualifiedTypeName name="EnergyServices.Service.CSVreader"/>
     <fullyQualifiedTypeName name="EnergyServices.Repository.ProvinciaRepository"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
-    <fullyQualifiedTypeName name="EnergyServices.Entities.Comune"/>
-    <fullyQualifiedTypeName name="EnergyServices.Entities.Provincia"/>
     <fullyQualifiedTypeName name="org.hibernate.internal.build.AllowSysOut"/>
     <fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JacksonInject.Value"/>
     <fullyQualifiedTypeName name="lombok.ToString"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
+    <fullyQualifiedTypeName name="EnergyServices.Repository.ComuneRepository"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.SequenceGenerator"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="EnergyServices.Service.CSVreader"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.BeforeEach"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="EnergyServices.Entities.Provincia"/>
+    <fullyQualifiedTypeName name="EnergyServices.Entities.Comune"/>
 </qualifiedTypeNameHistroy>
