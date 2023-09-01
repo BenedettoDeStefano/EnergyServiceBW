@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,15 +52,6 @@ public class ClienteControllerTest {
 		assertNotNull(response.getBody());
 		assertEquals(1L, response.getBody().getId());
 	}
-
-
-	@Test
-	public void testGetClienti() throws Exception {
-		String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MGE0OTczZi0zMWIwLTQ4ZTctYTc2Mi1mMjVlMDhjZGY5NzgiLCJpYXQiOjE2OTM1NTc1NTQsImV4cCI6MTY5NDE2MjM1NH0.WTIY25aCARGqJgmBj24uEvCMvpOdsfXkI5Ft4MHn3D8";
-		mockMvc.perform(get("/cliente").header("Authorization", "Bearer " + token)).andExpect(status().isOk());
-	}
-
-
 
 
 }

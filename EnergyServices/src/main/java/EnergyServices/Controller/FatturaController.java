@@ -39,8 +39,7 @@ public class FatturaController {
 			@RequestParam(required = false) Integer anno, @RequestParam(required = false) Double min,
 			@RequestParam(required = false) Double max
 
-	)
-			throws NotFoundException {
+	) throws NotFoundException {
 		List<Fattura> fatture;
 		if (clienteId != null) {
 			fatture = fatturaService.getByCliente(clienteId);
