@@ -136,7 +136,6 @@ public class CSVreader {
                 .build()) {
 
             String riga[];
-            int numComune = 1;
             
             while ((riga = csvReader.readNext()) != null) {
             	
@@ -180,11 +179,9 @@ public class CSVreader {
                 	Comune nuovoComune = new Comune(codiceProvincia, progressivoComune, denominazione, provinciaComune);
                 	listaComuni.add(nuovoComune);
                 	comuneRepo.save(nuovoComune);
-                	numComune++;
+                	
                 	// stampa a consolle la lista di tutti i comuni
-                	
-                	
-                    System.out.println(numComune +" "+ nuovoComune); 
+                    //System.out.println(numComune +" "+ nuovoComune); 
                 }
                 
                 comuneRepo.saveAll(listaComuni);
