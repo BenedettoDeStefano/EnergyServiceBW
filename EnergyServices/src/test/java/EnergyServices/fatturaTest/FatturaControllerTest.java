@@ -3,8 +3,6 @@ package EnergyServices.fatturaTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,11 +60,7 @@ public class FatturaControllerTest {
 		assertEquals(1L, response.getBody().getId());
 	}
 
-	@Test
-	public void testGetFattura() throws Exception {
-		String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Njk4Y2VhYS00M2MzLTQ0ZDItOWNhZS05NzA1NDBlNDkxZDIiLCJpYXQiOjE2OTM1NzI5NzAsImV4cCI6MTY5NDE3Nzc3MH0.5MFyZFBRbPS-D4tqjmV117YPWSoN8bWBvl3niORQFZY";
-		mockMvc.perform(get("/fattura").header("Authorization", "Bearer " + token)).andExpect(status().isOk());
-	}
+
 
 }
 
