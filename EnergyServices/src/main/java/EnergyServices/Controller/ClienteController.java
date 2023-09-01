@@ -46,14 +46,14 @@ public class ClienteController {
 
 	@PostMapping
 	public ResponseEntity<ClientePayLoad> createCliente(@Valid @RequestBody ClientePayLoad clientePayload) {
-		Cliente createdCliente = clienteService.createCliente(clientePayload.toCliente());
+		Cliente createdCliente = clienteService.createCliente(clientePayload);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ClientePayLoad(createdCliente));
 	}
 
 	@PutMapping("/{clienteId}")
 	public ResponseEntity<ClientePayLoad> updateCliente(@PathVariable Long clienteId,
 			@RequestBody ClientePayLoad clientePayload) {
-		Cliente updatedCliente = clienteService.updateClienteById(clientePayload.toCliente(), clienteId);
+		Cliente updatedCliente = clienteService.updateClienteById(clientePayload, clienteId);
 		return ResponseEntity.ok(new ClientePayLoad(updatedCliente));
 	}
 
