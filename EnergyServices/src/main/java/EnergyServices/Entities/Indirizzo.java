@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Indirizzo {
+public class Indirizzo implements Comparable<Indirizzo> {
 
 	@Id
 	@GeneratedValue
@@ -25,6 +25,7 @@ public class Indirizzo {
 	int civico;
 	String localita;
 	int cap;
+	int oreder;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -33,5 +34,11 @@ public class Indirizzo {
 	@ManyToOne
 	@JoinColumn(name = "comune_id")
 	Comune comune;
+
+	@Override
+	public int compareTo(Indirizzo o) {
+
+		return this.oreder - o.getOreder();
+	}
 
 }

@@ -127,6 +127,7 @@ public class CSVreader {
 		List<Comune> listaComuni = new ArrayList<>();
 		int numerazioneCrescente = 1;
 		
+		
 		CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
 		
 		try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(path))
@@ -170,14 +171,17 @@ public class CSVreader {
 
                 //cerco la provincia per il nome della provincia definita nel comune
                 List<Provincia> province = provRepo.findByProvincia(nomeProvincia);
+                
+                
                 if (province != null) {
                 	Provincia provinciaComune = province.get(0);
                 	
                 	Comune nuovoComune = new Comune(codiceProvincia, progressivoComune, denominazione, provinciaComune);
                 	listaComuni.add(nuovoComune);
                 	comuneRepo.save(nuovoComune);
+                	
                 	// stampa a consolle la lista di tutti i comuni
-                    //System.out.println(nuovoComune); 
+                    //System.out.println(numComune +" "+ nuovoComune); 
                 }
                 
                 comuneRepo.saveAll(listaComuni);

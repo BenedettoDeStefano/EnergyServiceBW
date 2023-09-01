@@ -19,11 +19,10 @@ class EnergyServicesApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
 
 	@Test
 	void contextLoads() throws Exception {
-
-
 		this.mockMvc
 				.perform(post("http://localhost:3001/auth/login").contentType(MediaType.APPLICATION_JSON)
 						.content("{\"email\":\"marco.mail@google.com\", \"password\":\"prova345\"}")

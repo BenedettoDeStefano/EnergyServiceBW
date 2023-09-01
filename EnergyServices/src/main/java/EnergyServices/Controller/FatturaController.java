@@ -108,7 +108,9 @@ public class FatturaController {
 		}
 	}
 
+	if (!lista.isEmpty()) {
 		fatture = fatture.stream().filter(lista::contains).toList();
+	}
 
 		if (fatture != null && !fatture.isEmpty()) {
 			return ResponseEntity.ok(fatture.stream().map(FatturaPayLoad::new).toList());
