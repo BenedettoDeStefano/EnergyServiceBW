@@ -26,8 +26,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/cliente")
 public class ClienteController {
 
-	@Autowired
 	private ClienteService clienteService;
+
+	@Autowired
+	public ClienteController(ClienteService clienteService) {
+		this.clienteService = clienteService;
+	}
 
 	@GetMapping
 	public ResponseEntity<List<ClientePayLoad>> getClienti() throws NotFoundException {
