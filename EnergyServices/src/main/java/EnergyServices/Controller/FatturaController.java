@@ -33,8 +33,8 @@ public class FatturaController {
 	@Autowired
 	private FatturaService fatturaService;
 
-	@GetMapping("search/{clienteId}")
-	public ResponseEntity<List<FatturaPayLoad>> getFattureByClienteId(@PathVariable Long clienteId,
+	@GetMapping("/search/{clienteId}")
+	public ResponseEntity<List<FatturaPayLoad>> getFattureByClienteId(@PathVariable(required = false) Long clienteId,
 			@RequestParam(required = false) String stato, @RequestParam(required = false) String data,
 			@RequestParam(required = false) Integer anno, @RequestParam(required = false) Double min,
 			@RequestParam(required = false) Double max
@@ -47,9 +47,16 @@ public class FatturaController {
 			fatture = fatturaService.getAllFatture();
 		}
 		List<Fattura> lista = new ArrayList<Fattura>();
+		lista.addAll(fatture);
 		ricerca: {
 		if (stato != null && !stato.isEmpty()) {
-			lista.addAll(fatturaService.findByStato(stato));
+			List<Fattura> found = fatturaService.findByStato(stato);
+			if (lista.isEmpty()) {
+				lista.addAll(found);
+			} else {
+				lista = lista.stream().filter(found::contains).toList();
+
+			}
 			if (lista.isEmpty()) {
 				break ricerca;
 			}
@@ -107,9 +114,9 @@ public class FatturaController {
 		}
 	}
 
-	if (!lista.isEmpty()) {
+//	if (!lista.isEmpty()) {
 		fatture = fatture.stream().filter(lista::contains).toList();
-	}
+//	}
 
 		if (fatture != null && !fatture.isEmpty()) {
 			return ResponseEntity.ok(fatture.stream().map(FatturaPayLoad::new).toList());
