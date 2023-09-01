@@ -1,13 +1,18 @@
 package EnergyServices.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import EnergyServices.Entities.Cliente;
+import EnergyServices.Entities.Comune;
+import EnergyServices.Entities.Indirizzo;
+import EnergyServices.PayLoad.ClientePayLoad;
 import EnergyServices.Repository.ClienteRepository;
 
 @Service
@@ -15,6 +20,9 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private ComuneService cSrv;
 
 	public List<Cliente> getAllClienti() {
 		return clienteRepository.findAll();
@@ -33,7 +41,8 @@ public class ClienteService {
 		clienteRepository.delete(clienteTrovato);
 	}
 
-	public Cliente updateClienteById(Cliente nuovoCliente, Long id) {
+	public Cliente updateClienteById(ClientePayLoad nuovoClientePayload, Long id) {
+		Cliente nuovoCliente = nuovoClientePayload.toCliente();
 		Cliente clienteTrovato = clienteRepository.findById(id).orElse(null);
 
 		if (clienteTrovato != null) {
@@ -53,14 +62,50 @@ public class ClienteService {
 			clienteTrovato.setTelefonoContatto(nuovoCliente.getTelefonoContatto());
 			clienteTrovato.setTipo(nuovoCliente.getTipo());
 
+			setIndirizzi(nuovoClientePayload, clienteTrovato);
+
 			return clienteRepository.save(clienteTrovato);
 		} else {
 			return null;
 		}
 	}
 
-	public Cliente createCliente(Cliente cliente) {
+	public Cliente createCliente(ClientePayLoad clientePayload) {
+		Cliente cliente = clientePayload.toCliente();
+		setIndirizzi(clientePayload, cliente);
 		return saveCliente(cliente);
+	}
+
+	private void setIndirizzi(ClientePayLoad payload, Cliente c) {
+		if (payload.getSedeLegale() == null) {
+			return;
+		}
+		Indirizzo[] indirizzi = new Indirizzo[2];
+		if (payload.getSedeLegale() != null) {
+			Indirizzo sedeLegale = payload.getSedeLegale().toIndirizzo();
+			Comune comune = cSrv.getById(payload.getSedeLegale().getComuneId());
+			sedeLegale.setComune(comune);
+			sedeLegale.setOreder(0);
+			sedeLegale.setCliente(c);
+			indirizzi[0] = sedeLegale;
+
+		}
+
+		if (payload.getSedeOperativa() != null) {
+			Indirizzo sedeOp = payload.getSedeOperativa().toIndirizzo();
+			Comune comune = cSrv.getById(payload.getSedeOperativa().getComuneId());
+			sedeOp.setComune(comune);
+			sedeOp.setOreder(1);
+			sedeOp.setCliente(c);
+			indirizzi[1] = sedeOp;
+		}
+		Set<Indirizzo> setI = new HashSet<>();
+		for (Indirizzo i : indirizzi) {
+			if (i != null) {
+				setI.add(i);
+			}
+		}
+		c.setIndirizzi(setI);
 	}
 
 	// ------------------------------------------------------ Filtr

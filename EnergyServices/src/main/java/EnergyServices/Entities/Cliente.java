@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import EnergyServices.Enum.TipoCliente;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -42,7 +43,7 @@ public class Cliente {
 	String cognomeContatto;
 	String telefonoContatto;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	Set<Indirizzo> indirizzi;
 
 	@Enumerated(EnumType.STRING)

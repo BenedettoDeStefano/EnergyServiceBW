@@ -1,8 +1,10 @@
 package EnergyServices.PayLoad;
 
 import java.time.LocalDate;
+import java.util.TreeSet;
 
 import EnergyServices.Entities.Cliente;
+import EnergyServices.Entities.Indirizzo;
 import EnergyServices.Enum.TipoCliente;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +38,9 @@ public class ClientePayLoad {
 	private TipoCliente tipo;
 	private Long id;
 
+	private IndirizzoPayload sedeLegale;
+	private IndirizzoPayload sedeOperativa;
+
 	public ClientePayLoad(Cliente c) {
 		this.setRagioneSociale(c.getRagioneSociale());
 		this.setPartitaIva(c.getPartitaIva());
@@ -51,6 +56,14 @@ public class ClientePayLoad {
 		this.setTelefonoContatto(c.getTelefonoContatto());
 		this.setTipo(c.getTipo());
 		this.setId(c.getId());
+
+		if (c.getIndirizzi().size() > 0) {
+			TreeSet<Indirizzo> set = new TreeSet<>(c.getIndirizzi());
+			this.setSedeLegale(new IndirizzoPayload(set.pollFirst()));
+			if (!set.isEmpty()) {
+				this.setSedeOperativa(new IndirizzoPayload(set.pollFirst()));
+			}
+		}
 	}
 
 	public Cliente toCliente() {
